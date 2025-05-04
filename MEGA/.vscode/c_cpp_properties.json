@@ -1,0 +1,60 @@
+//
+// !!! WARNING !!! AUTO-GENERATED FILE!
+// PLEASE DO NOT MODIFY IT AND USE "platformio.ini":
+// https://docs.platformio.org/page/projectconf/section_env_build.html#build-flags
+//
+{
+    "configurations": [
+        {
+            "name": "PlatformIO",
+            "includePath": [
+                "/home/voktex/Desktop/EpreuveSyntese_ObjetConnecte/MEGA/include",
+                "/home/voktex/Desktop/EpreuveSyntese_ObjetConnecte/MEGA/src",
+                "/home/voktex/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
+                "/home/voktex/Desktop/EpreuveSyntese_ObjetConnecte/MEGA/.pio/libdeps/megaatmega2560/Streaming",
+                "/home/voktex/Desktop/EpreuveSyntese_ObjetConnecte/MEGA/.pio/libdeps/megaatmega2560/ANSI",
+                "/home/voktex/.platformio/packages/framework-arduino-avr/cores/arduino",
+                "/home/voktex/.platformio/packages/framework-arduino-avr/variants/mega",
+                "/home/voktex/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
+                "/home/voktex/.platformio/packages/framework-arduino-avr/libraries/HID/src",
+                "/home/voktex/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
+                "/home/voktex/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
+                ""
+            ],
+            "browse": {
+                "limitSymbolsToIncludedHeaders": true,
+                "path": [
+                    "/home/voktex/Desktop/EpreuveSyntese_ObjetConnecte/MEGA/include",
+                    "/home/voktex/Desktop/EpreuveSyntese_ObjetConnecte/MEGA/src",
+                    "/home/voktex/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
+                    "/home/voktex/Desktop/EpreuveSyntese_ObjetConnecte/MEGA/.pio/libdeps/megaatmega2560/Streaming",
+                    "/home/voktex/Desktop/EpreuveSyntese_ObjetConnecte/MEGA/.pio/libdeps/megaatmega2560/ANSI",
+                    "/home/voktex/.platformio/packages/framework-arduino-avr/cores/arduino",
+                    "/home/voktex/.platformio/packages/framework-arduino-avr/variants/mega",
+                    "/home/voktex/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
+                    "/home/voktex/.platformio/packages/framework-arduino-avr/libraries/HID/src",
+                    "/home/voktex/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
+                    "/home/voktex/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
+                    ""
+                ]
+            },
+            "defines": [
+                "PLATFORMIO=60118",
+                "ARDUINO_AVR_MEGA2560",
+                "F_CPU=16000000L",
+                "ARDUINO_ARCH_AVR",
+                "ARDUINO=10808",
+                "__AVR_ATmega2560__",
+                ""
+            ],
+            "cStandard": "gnu11",
+            "cppStandard": "gnu++11",
+            "compilerPath": "/home/voktex/.platformio/packages/toolchain-atmelavr/bin/avr-gcc",
+            "compilerArgs": [
+                "-mmcu=atmega2560",
+                ""
+            ]
+        }
+    ],
+    "version": 4
+}
