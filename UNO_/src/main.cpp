@@ -159,7 +159,11 @@ void changerValeurSysteme(unsigned int& etats, int valeurPotentiometre) {
 	systemE2467525.seconde = horlotge.second;
 
 	systemE2467525.appareils.etatAppareils = etats;
-	systemE2467525.appareils.temperature   = bmp280.getTemperature();
+
+	double temperature = bmp280.getTemperature();
+	double convertionTemperature = etatChangementUniteTemperature==SYMBOLE_CELCIUS ? temperature : temperature * 1.8 + 32;
+
+	systemE2467525.appareils.temperature   = convertionTemperature;
 	systemE2467525.appareils.humidite      = bmp280.getHumidity();
 	systemE2467525.appareils.dureeAlarme   = valeurPotentiometre;
 

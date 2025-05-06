@@ -199,14 +199,21 @@ void afficherInformationSysteme(Systeme systeme) {
   ansi.gotoXY(POSITION_X_ETAT_ELEMENT, POSITION_Y_TEMPERATURE);
   Serial.print("   ");
   Serial.print(systeme.appareils.temperature);
+  Serial.print(" ");
+  Serial.print(etatsSysteme & (1 << 7) ? "C" : "F");
 
   ansi.gotoXY(POSITION_X_ETAT_ELEMENT, POSITION_Y_HUMIDITE);
   Serial.print("   ");
   Serial.print(systeme.appareils.humidite);
+  Serial.print(" ");
+
+  Serial.print("%");
 
   ansi.gotoXY(POSITION_X_ETAT_ELEMENT, POSITION_Y_DUREE_ALARME);
   Serial.print("    ");
   Serial.print(graphDigits[systeme.appareils.dureeAlarme]);
+  Serial.print("  ");
+
 
   ansi.gotoXY(POSITION_X_ETAT_ELEMENT, POSITION_Y_HEURE_UNO);
   char buffer[9];
