@@ -8,11 +8,11 @@
         {
             "name": "PlatformIO",
             "includePath": [
-                "/home/voktex/Code/EpreuveSyntese_ObjetConnecte/MEGA/include",
-                "/home/voktex/Code/EpreuveSyntese_ObjetConnecte/MEGA/src",
+                "/home/voktex/Desktop/EpreuveSyntese_ObjetConnecte/MEGA/include",
+                "/home/voktex/Desktop/EpreuveSyntese_ObjetConnecte/MEGA/src",
                 "/home/voktex/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
-                "/home/voktex/Code/EpreuveSyntese_ObjetConnecte/MEGA/.pio/libdeps/megaatmega2560/Streaming",
-                "/home/voktex/Code/EpreuveSyntese_ObjetConnecte/MEGA/.pio/libdeps/megaatmega2560/ANSI",
+                "/home/voktex/Desktop/EpreuveSyntese_ObjetConnecte/MEGA/.pio/libdeps/megaatmega2560/Streaming",
+                "/home/voktex/Desktop/EpreuveSyntese_ObjetConnecte/MEGA/.pio/libdeps/megaatmega2560/ANSI",
                 "/home/voktex/.platformio/packages/framework-arduino-avr/cores/arduino",
                 "/home/voktex/.platformio/packages/framework-arduino-avr/variants/mega",
                 "/home/voktex/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
@@ -24,11 +24,11 @@
             "browse": {
                 "limitSymbolsToIncludedHeaders": true,
                 "path": [
-                    "/home/voktex/Code/EpreuveSyntese_ObjetConnecte/MEGA/include",
-                    "/home/voktex/Code/EpreuveSyntese_ObjetConnecte/MEGA/src",
+                    "/home/voktex/Desktop/EpreuveSyntese_ObjetConnecte/MEGA/include",
+                    "/home/voktex/Desktop/EpreuveSyntese_ObjetConnecte/MEGA/src",
                     "/home/voktex/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
-                    "/home/voktex/Code/EpreuveSyntese_ObjetConnecte/MEGA/.pio/libdeps/megaatmega2560/Streaming",
-                    "/home/voktex/Code/EpreuveSyntese_ObjetConnecte/MEGA/.pio/libdeps/megaatmega2560/ANSI",
+                    "/home/voktex/Desktop/EpreuveSyntese_ObjetConnecte/MEGA/.pio/libdeps/megaatmega2560/Streaming",
+                    "/home/voktex/Desktop/EpreuveSyntese_ObjetConnecte/MEGA/.pio/libdeps/megaatmega2560/ANSI",
                     "/home/voktex/.platformio/packages/framework-arduino-avr/cores/arduino",
                     "/home/voktex/.platformio/packages/framework-arduino-avr/variants/mega",
                     "/home/voktex/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",

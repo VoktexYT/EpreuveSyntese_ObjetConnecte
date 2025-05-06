@@ -270,6 +270,8 @@ void changerEtatBuzzer(int nouvelEtat) {
 // Exécuter des fonctions d'alerte, si il y a du mouvement
 void verifierEtatDetecteurMouvement(bool etatAlarme, bool& etatDetecteurMouvement, bool etatLCDRetroEclarage, int longueurTempsAlarme, unsigned long int& tempsDebut, bool estValeurPotentiometreChangee) {
 	static bool premiereFoisActive = true;
+	changerCouleurLCD(etatDetecteurMouvement, etatLCDRetroEclarage);
+
 
 	if (etatAlarme) {
 		bool bouttonPaniqueOuDetecteurMouvementActive = digitalRead(PIN_DETECTEUR_MOUVEMENT) || digitalRead(PIN_BOUTON);
@@ -289,7 +291,6 @@ void verifierEtatDetecteurMouvement(bool etatAlarme, bool& etatDetecteurMouvemen
 
 		changerEtatBuzzer(etatDetecteurMouvement);
 		afficherLCDIntrusion(etatDetecteurMouvement);
-		changerCouleurLCD(etatDetecteurMouvement, etatLCDRetroEclarage);
 		
 		#ifdef DEBUG
 			ansi.gotoXY(0, 23);
