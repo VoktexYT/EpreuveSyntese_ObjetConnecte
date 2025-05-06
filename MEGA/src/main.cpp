@@ -22,11 +22,14 @@ void setup() {
   ansi.clearScreen();
 
   afficherStationControleMega();
+
+  
 } // setup()
 
 // Boucle du programme
 void loop()
 {
+  return;
 	static unsigned long int debutTemps = millis();
   static unsigned long int donneesValidesEnvoyees = 0;
 
