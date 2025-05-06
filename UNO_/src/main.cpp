@@ -9,7 +9,6 @@
 // Fichiers projets
 #include "main.h"
 
-
 // Instances globales
 // SHT31 capteurTemperatureHumidite;
 ANSI ansi(&Serial);
@@ -28,7 +27,7 @@ void setup() {
 	Serial.begin(VITESSE_UART);
 	// capteurTemperatureHumidite.begin();
 	bmp280.init();
-	portSerieTransmetteur.begin(19200);
+	portSerieTransmetteur.begin(VITESSE_UART);
 
 	ansi.clearScreen();
 
@@ -42,14 +41,18 @@ void setup() {
 	#endif
 
 	afficherStationControle();
+
+	afficherOnOff(POSITION_X_ETAT, POSITION_Y_LED1, false);
+	afficherOnOff(POSITION_X_ETAT, POSITION_Y_LED2, false);
+	afficherOnOff(POSITION_X_ETAT, POSITION_Y_RELAI, false);
 } // setup()
 
 
 
 // Boucle du programme
 void loop() {
-	static int ancienneValeurPotentiometre = 0;
-	int valeurPotentiometre = map(
+	static unsigned int ancienneValeurPotentiometre = 0;
+	unsigned int valeurPotentiometre = map(
 		analogRead(PIN_POTENTIOMETRE), 
 		POTENTIOMETRE_MIN, 
 		POTENTIOMETRE_MAX, 
@@ -60,7 +63,6 @@ void loop() {
 	bool estValeurPotentiometreChangee = ancienneValeurPotentiometre != valeurPotentiometre;
 
 	ansi.gotoXY(10, 40);
-	Serial << (estValeurPotentiometreChangee ? "TRUE " : "FALSE") << " : " << ancienneValeurPotentiometre << " != " << valeurPotentiometre;
 
 	static unsigned long int tempsAvant = millis();
 	static unsigned long int tempsAvant2 = millis();
@@ -71,7 +73,7 @@ void loop() {
 	static bool etatAlarme = ON_OFF_DEFAUT_ALARME;
 	static bool etatDetecteurMouvement = ON_OFF_DEFAUT_DETECTEUR_MOUVEMENT;
 	static bool etatLCDRetroEclarage = ON_OFF_DEFAUT_RETRO_ECLAIRAGE;
-
+	
 	static unsigned int etats = 0;
 	static unsigned long int debutTemps = millis();
 
@@ -87,11 +89,11 @@ void loop() {
 	);
 
 	// Calculer le temps écoulé avant d'envoyer les données
-	if (millis() - tempsAvant >= valeurPotentiometre * SECONDE) {
+	if ((millis() - tempsAvant) >= (valeurPotentiometre * SECONDE)) {
 		tempsAvant = millis();
 	}
 
-	if (millis() - tempsAvant2 >= SECONDE) {
+	if (millis() - tempsAvant2 >= SECONDE || etatDetecteurMouvement) {
 		tempsAvant2 = millis();
 		changerValeurEtatBinaire(
 			etats, 
@@ -107,8 +109,11 @@ void loop() {
 		
 		changerValeurSysteme(etats, valeurPotentiometre);
 		
+		systemE2467525.codeMessage = etatDetecteurMouvement ? Evenements::evenement_detection_mouvement : Evenements::evenement_statut_appareils;
+		
 		portSerieTransmetteur.write((char*)&systemE2467525, sizeof(systemE2467525));
-		portSerieTransmetteur.flush();	
+		
+		portSerieTransmetteur.flush();
 	}
 
 	afficherTempsEcoule((millis() - debutTemps) / SECONDE);
@@ -119,6 +124,8 @@ void loop() {
 	afficherEtatBinaire(etats);
 
 	ancienneValeurPotentiometre = valeurPotentiometre;
+
+
 	// Changement d'états des composants avec les touches du clavier
 	if (!Serial.available()) return;
 
@@ -126,7 +133,7 @@ void loop() {
 	afficherOption(commande);
 	executerCommande(commande,
 		etatLed1, etatLed2, etatRelai, etatChangementUniteTemperature,
-		etatDetecteurMouvement, etatLCDRetroEclarage);
+		etatAlarme, etatLCDRetroEclarage);
 } // loop()
 
 
@@ -168,11 +175,11 @@ void changerValeurEtatBinaire(unsigned int &etats, bool etatLed1, bool etatLed2,
 	etats |= etatLed1                                         ? APP_LED1           : 0;
 	etats |= etatLed2                                         ? APP_LED2           : 0;
 	etats |= etatRelai                                        ? APP_RELAI          : 0;
-	etats |= etatDetecteurMouvement                           ? APP_MOUVEMENT_ARME : 0;
+	etats |= mouvementDetecte                           ? APP_MOUVEMENT_ARME : 0;
 	etats |= etatBoutonPanique                                ? APP_BOUTON_PANIQUE : 0;
 	etats |= etatRetroEclairage                               ? APP_RETRO_LCD      : 0;
 	etats |= etatChangementUniteTemperature                   ? APP_UNITE_TEMP     : 0;
-	etats |= mouvementDetecte                                 ? APP_MOUVEMENT      : 0;
+	etats |= etatDetecteurMouvement                                 ? APP_MOUVEMENT      : 0;
 } // changerValeurEtatBinaire()
 
 
@@ -190,26 +197,26 @@ void afficherEtatAlarme(bool etatAlarme) {
 
 
 // Exécution des fonctions liées aux commandes
-void executerCommande(char commande, bool& etatLed1, bool& etatLed2, bool& etatRelai, char& etatChangementUniteTemperature, bool& etatDetecteurMouvement, bool& etatLCDRetroEclarage) {
+void executerCommande(char commande, bool& etatLed1, bool& etatLed2, bool& etatRelai, char& etatChangementUniteTemperature, bool& etatAlarme, bool& etatLCDRetroEclarage) {
 	switch (commande) {
 		case COMMANDE_LED_1:
-			etatLed1 = !etatLed1;
 			changerValeurEtat(POSITION_Y_LED1, PIN_LED_1);
+			etatLed1 = digitalRead(PIN_LED_1);
 			break;
 		case COMMANDE_LED_2:
-			etatLed2 = !etatLed2;
 			changerValeurEtat(POSITION_Y_LED2, PIN_LED_2);
+			etatLed2 = digitalRead(PIN_LED_2);
 			break;
 		case COMMANDE_RELAI:
-			etatRelai = !etatRelai;
 			changerValeurEtat(POSITION_Y_RELAI, PIN_RELAI);
+			etatRelai = digitalRead(PIN_RELAI);
 			break;
 		case COMMANDE_CHANGEMENT_UNITE_TEMPERATURE:
 			changerValeurTemperature(etatChangementUniteTemperature);
 			break;
 		case COMMANDE_DETECTEUR_MOUVEMENT:
-			etatDetecteurMouvement = !etatDetecteurMouvement;
-			changerTexteEtatAlarme(etatDetecteurMouvement);
+			etatAlarme = !etatAlarme;
+			changerTexteEtatAlarme(etatAlarme);
 			break;
 		case COMMANDE_RETRO_ECLAIRAGE:
 			etatLCDRetroEclarage = !etatLCDRetroEclarage;
@@ -305,23 +312,6 @@ void changerValeurTemperature(char& etatChangementUniteTemperature) {
 } // changerValeurTemperature()
 
 
-// Vérifie si le bouton est appuyé et exécute COMMANDE_DETECTEUR_MOUVEMENT
-// void verifierEtatBouton(bool& etatAlarme) {
-// 	static bool estDejaAppuye = false;
-// 	bool etatActuel = digitalRead(PIN_BOUTON);
-
-// 	if (etatActuel && !estDejaAppuye) {
-// 		estDejaAppuye = true;
-// 		etatAlarme = !etatAlarme;
-// 		changerTexteEtatAlarme(etatAlarme);
-// 	}
-
-// 	else if (!etatActuel && estDejaAppuye) {
-// 		estDejaAppuye = false;
-// 	}
-// } // verifierEtatBouton()
-
-
 // Changement du texte du detecteur de mouvement dans l'interface (Activé / Désactivé)
 void changerTexteEtatAlarme(bool etatAlarme) {
 	ansi.gotoXY(POSITION_X_ETAT, POSITION_Y_DETECTEUR_MOUVEMENT);
@@ -342,7 +332,7 @@ void changerValeurEtat(int positionY, int pin) {
 		Serial << "Changement d'état, " << etatText << endl;
 	#endif
 
-	afficherOnOff(POSITION_X_ETAT, positionY, digitalRead(pin));
+	afficherOnOff(POSITION_X_ETAT, positionY, !digitalRead(pin));
 	digitalWrite(pin, !digitalRead(pin));
 } // changerValeurEtat()
 

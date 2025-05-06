@@ -26,11 +26,6 @@
 // Nom système
 #define NOM_SYSTEME "e2467525"
 #define MAX_CAR_NOM_SYSTEME 10
-#define lienAvecRecepteur Serial2
-
-// Port communication UNO
-#define UART_RX             6
-#define UART_TX             7
 
 // Structure & Enum
 enum Evenements 
@@ -111,7 +106,7 @@ void verifierEtatDetecteurMouvement(bool etatAlarme, bool& etatDetecteurMouvemen
 void executerCommande(
     char commande, 
     bool& etatLed1, bool& etatLed2, bool& etatRelai, 
-    char& etatChangementUniteTemperature, bool& etatDetecteurMouvement, bool& etatLCDRetroEclarage);
+    char& etatChangementUniteTemperature, bool& etatAlarme, bool& etatLCDRetroEclarage);
 
 char recupererCaractereEtat(bool etat);
 
@@ -183,7 +178,7 @@ const char* SEMAINE[] = {"",
 #define ON_OFF_DEFAUT_LED_1 false
 #define ON_OFF_DEFAUT_LED_2 false
 #define ON_OFF_DEFAUT_RELAI false
-#define ON_OFF_DEFAUT_RETRO_ECLAIRAGE false
+
 #define ON_OFF_DEFAUT_ALARME true
 #define ON_OFF_DEFAUT_DETECTEUR_MOUVEMENT false
 #define ON_OFF_DEFAUT_RETRO_ECLAIRAGE true

@@ -18,8 +18,6 @@
 
 // Information MEGA
 #define UART_VITESSE        19200
-#define UART_RX             10 
-#define UART_TX             11
 #define MAX_CAR_NOM_SYSTEME 10
 
 // Couleurs

@@ -7,10 +7,11 @@
 */
 
 #include "main.h"
+#define recepteur Serial2
+
 
 // Instances globales
 Systeme e2467525;
-#define recepteur Serial2
 ANSI ansi(&Serial);
 
 // Fonction de démarage
@@ -29,7 +30,6 @@ void setup() {
 // Boucle du programme
 void loop()
 {
-  return;
 	static unsigned long int debutTemps = millis();
   static unsigned long int donneesValidesEnvoyees = 0;
 
@@ -89,8 +89,7 @@ void afficherDonneeValideRecu(int donneesEnvoyees) {
 } // afficherDonneeValideRecu()
 
 // Permet d'aligner un texte avec des symbole. Ex: exemple ----->
-void afficherTexteAvecRemplissage(const char* texte, int longueur, int posX, int posY, char caractere = '-')
-{
+void afficherTexteAvecRemplissage(const char* texte, int longueur, int posX, int posY, char caractere) {
     ansi.gotoXY(posX, posY);
 
     Serial << texte << " ";
@@ -174,13 +173,13 @@ void afficherInformationSysteme(Systeme systeme) {
   unsigned int etatsSysteme = systeme.appareils.etatAppareils;
 
   ansi.gotoXY(POSITION_X_ETAT_ELEMENT, POSITION_Y_ETAT_LED1);
-  Serial.print(etatsSysteme & 1 ? _ON : _OFF);
+  Serial.print(etatsSysteme & 1 ? _OFF : _ON);
 
   ansi.gotoXY(POSITION_X_ETAT_ELEMENT, POSITION_Y_ETAT_LED2);
-  Serial.print(etatsSysteme & (1 << 1) ? _ON : _OFF);
+  Serial.print(etatsSysteme & (1 << 1) ? _OFF : _ON);
 
   ansi.gotoXY(POSITION_X_ETAT_ELEMENT, POSITION_Y_ETAT_RELAI);
-  Serial.print(etatsSysteme & (1 << 2) ? _ON : _OFF);
+  Serial.print(etatsSysteme & (1 << 2) ? _OFF : _ON);
 
   ansi.gotoXY(POSITION_X_ETAT_ELEMENT, POSITION_Y_TEMPERATURE_SYMBOLE);
   Serial.print(etatsSysteme & (1 << 7) ? CELCIUS : FAHRENHEIT);
@@ -195,7 +194,7 @@ void afficherInformationSysteme(Systeme systeme) {
   Serial.print(etatsSysteme & (1 << 5) ? _ON : _OFF_VIDE);
 
   ansi.gotoXY(POSITION_X_ETAT_ELEMENT, POSITION_Y_ETAT_MOUVEMENT_DETECTE);
-  Serial.print(etatsSysteme & (1 << 3) ? _ON: _OFF_VIDE);
+  Serial.print(etatsSysteme & (1 << 3) ? _ON : _OFF_VIDE);
 
   ansi.gotoXY(POSITION_X_ETAT_ELEMENT, POSITION_Y_TEMPERATURE);
   Serial.print("   ");
